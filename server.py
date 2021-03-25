@@ -3,7 +3,7 @@ import argparse
 import grpc
 import time
 
-import ping
+from src import ping
 import kv_pb2
 import kv_pb2_grpc
 

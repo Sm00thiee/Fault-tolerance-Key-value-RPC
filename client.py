@@ -1,7 +1,5 @@
 from __future__ import print_function
-from src import ping
-import kv_pb2
-import kv_pb2_grpc
+from src import ping, kv_pb2, kv_pb2_grpc
 import grpc
 
 

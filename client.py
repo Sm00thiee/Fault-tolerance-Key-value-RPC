@@ -6,7 +6,7 @@ import grpc
 def Get(ip, key):
     with grpc.insecure_channel(ip) as channel:
         stub = kv_pb2_grpc.ClientStub(channel)
-        response = stub.Get(kv_pb2.GetKey(key))
+        response = stub.Get(kv_pb2.GetKey(key=key))
         if response.defined:
             print("'%s'='%s'" % (key, response.value))
         else:
@@ -16,7 +16,7 @@ def Get(ip, key):
 def Set(ip, key, value):
     with grpc.insecure_channel(ip) as channel:
         stub = kv_pb2_grpc.ClientStub(channel)
-        stub.Set(kv_pb2.SetKey(key, value, True))
+        stub.Set(kv_pb2.SetKey(key=key, value=value, broadcast=True))
 
 
 def List(ip):
@@ -33,7 +33,6 @@ def run():
         ip = input('Enter IP: ')
         if ping.isValidIP(ip):
             while(True):
-                try:
                     List(ip)
                     choice = int(input('0. Set    1. Get    2. List\n'))
                     if choice == 2:
@@ -46,10 +45,9 @@ def run():
                         if choice == 0:
                             kv = input('Enter Value: ')
                             Set(ip, key, kv)
-                except:
-                    print('Server is not available!')
-                if KeyboardInterrupt or choice == 3:
-                    break
+                
+                    if KeyboardInterrupt or choice == 3:
+                        break
         else:
             print('Not a avalid IP!')
 

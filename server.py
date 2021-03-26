@@ -68,7 +68,7 @@ class Storer(kv_pb2_grpc.ClientServicer):
     def RegisterWithPeer(self, request, context):
         peerIP = request.ip
         print("received new peer registration: %s" % peerIP)
-        if ip.isValidIP(peerIP):
+        if ping.isValidIP(peerIP):
             if (peerIP in peers) == False:
                 peers.append(peerIP)
         return kv_pb2.StoreReply(store=store)

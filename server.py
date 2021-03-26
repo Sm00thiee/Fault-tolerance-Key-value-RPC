@@ -28,7 +28,7 @@ def parseArgs():
         if peerIP != args.ip:
             if (peerIP in peers) == False:
                 peers.append(peerIP)
-                introduceOurself(peerIP)
+                createSlave(peerIP)
 
     return args
 
@@ -71,7 +71,7 @@ class Storer(kv_pb2_grpc.ClientServicer):
         return kv_pb2.StoreReply(store=store)
 
 
-def introduceOurself(peerIP):
+def createSlave(peerIP):
     global store
     with grpc.insecure_channel(peerIP) as channel:
         stub = kv_pb2_grpc.ClientStub(channel)
@@ -96,7 +96,11 @@ def serve(ip):
     server.add_insecure_port(ip)
     print("Listening on %s..." % ip)
     server.start()
-
+    try:
+        while True:
+            time.sleep(60 * 60 * 24) # 24h in second
+    except KeyboardInterrupt:
+        server.stop(0)
 
 if __name__ == "__main__":
     args = parseArgs()

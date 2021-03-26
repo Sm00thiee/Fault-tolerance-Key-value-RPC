@@ -3,9 +3,7 @@ import argparse
 import grpc
 import time
 
-from src import ping
-import kv_pb2
-import kv_pb2_grpc
+from src import ping, kv_pb2, kv_pb2_grpc
 
 _ONE_DAY_IN_SECONDS = 60 * 60 * 24
 
@@ -18,16 +16,17 @@ def parseArgs():
     global args
     parser = argparse.ArgumentParser(description="Key-value store server.")
     parser.add_argument("peers", nargs="*", metavar="PEER",
-                        help="Set peer IP address (IPv4 only!).")
+                        help="Set slave server IP address (IPv4 only!).")
     parser.add_argument("--ip", default="127.0.0.1:4000",
                         help="Set server IP address (IPv4 only!).")
     args = parser.parse_args()
 
-    if ip.isValidIP(args.ip) == False:
+
+    if ping.isValidIP(args.ip) == False:
         print("not a valid IP address: '%s'" % args.ip)
 
     for peerIP in args.peers:
-        if ip.isValidIP(peerIP) == False:
+        if ping.isValidIP(peerIP) == False:
             print("not a valid peer IP address: '%s'" % peerIP)
         if peerIP != args.ip:
             if (peerIP in peers) == False:

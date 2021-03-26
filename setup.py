@@ -1,5 +1,6 @@
 import os
 
+# For windows only
 os.system('cmd /c "python -m pip install grpcio --user"')
 os.system('cmd /c "python -m pip install grpcio-tools googleapis-common-protos --user"')
 os.system('cmd /k "cd src"')

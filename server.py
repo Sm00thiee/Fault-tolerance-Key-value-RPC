@@ -5,8 +5,6 @@ import time
 
 from src import ping, kv_pb2, kv_pb2_grpc
 
-_ONE_DAY_IN_SECONDS = 60 * 60 * 24
-
 args = []
 store = {}
 peers = []
@@ -20,7 +18,6 @@ def parseArgs():
     parser.add_argument("--ip", default="127.0.0.1:4000",
                         help="Set server IP address (IPv4 only!).")
     args = parser.parse_args()
-
 
     if ping.isValidIP(args.ip) == False:
         print("not a valid IP address: '%s'" % args.ip)
@@ -99,12 +96,6 @@ def serve(ip):
     server.add_insecure_port(ip)
     print("Listening on %s..." % ip)
     server.start()
-
-    try:
-        while True:
-            time.sleep(_ONE_DAY_IN_SECONDS)
-    except KeyboardInterrupt:
-        server.stop(0)
 
 
 if __name__ == "__main__":
